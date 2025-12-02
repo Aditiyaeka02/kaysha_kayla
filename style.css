@@ -73,14 +73,27 @@
             animation: pulse 2s infinite;
             z-index: 100;
         }
-        .card  {
+        /* Card container */
+        .card {
             width: 90%;
-  max-width: 100%;   /* supaya tidak melebihi lebar card */
-  height: auto;      /* biar proporsi tetap */
-  border-radius: 10px; /* opsional, buat sudut agak melengkung */
-  margin-top: 10px;   /* jarak dari teks */
-  display: block;     /* rapikan posisi */
-}
+            max-width: 100%;   /* supaya tidak melebihi lebar card */
+            height: auto;      /* biar proporsi tetap */
+            border-radius: 10px; /* opsional, buat sudut agak melengkung */
+            margin-top: 10px;   /* jarak dari teks */
+            display: block;     /* rapikan posisi */
+            box-sizing: border-box;
+        }
+
+        /* Card image (separate class) */
+        .card-img {
+            width: 100%;
+            max-width: 320px;
+            height: auto;
+            display: block;
+            margin: 0 auto 12px auto;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
 
         #letter {
@@ -99,6 +112,42 @@
             z-index: 50;
         }
 
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 1000px) {
+            #letter {
+                width: 56%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #letter {
+                position: fixed;
+                width: 92%;
+                left: 50%;
+                right: auto;
+                transform: translate(-50%, 0) rotate(0deg);
+                top: 8vh;
+                padding: 18px;
+                border-radius: 12px;
+                max-height: 84vh;
+                box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+            }
+            #cake-canvas {
+                transform: scale(0.6) translateY(8vh);
+            }
+            #instructions, #scroll-instruction { font-size: 18px; bottom: 4vh; }
+            .card-img { max-width: 100%; }
+            .card { width: 100%; padding: 6px; }
+        }
+
+        /* Very small screens: tighten layout */
+        @media (max-width: 420px) {
+            #letter { padding: 14px; width: 96%; top: 6vh; }
+            #letter h1 { font-size: 20px; }
+            #letter p { font-size: 14px; }
+            .card-img { max-width: 100%; height: auto; }
+        }
+
         #letter h1 {
             color: #580000;
             text-align: center;
@@ -106,7 +155,11 @@
 
         #letter p {
             line-height: 1.6;
+            word-break: break-word;
         }
+
+        /* Make scrolling smoother on mobile */
+        #letter { -webkit-overflow-scrolling: touch; }
 
         #confetti-canvas {
             position: fixed;

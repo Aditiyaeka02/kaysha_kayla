@@ -287,13 +287,34 @@
 
             const scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
+            const letter = document.getElementById("letter");
+            const cakeCanvas = document.getElementById("cake-canvas");
+            const isSmall = window.innerWidth <= 768;
+
             if (scrollPosition > 100) {
-                document.getElementById("cake-canvas").style.transform = "translate(-40%, 0) scale(0.5)";
-                document.getElementById("letter").style.right = "10%";
+                cakeCanvas.style.transform = "translate(-40%, 0) scale(0.5)";
+                if (isSmall) {
+                    // center the card on small devices
+                    letter.style.left = "50%";
+                    letter.style.right = "auto";
+                    letter.style.transform = "translate(-50%, 0) rotate(0deg)";
+                    letter.style.top = "8vh";
+                } else {
+                    letter.style.left = "auto";
+                    letter.style.right = "10%";
+                    letter.style.transform = "translateY(-50%) rotate(3deg)";
+                }
                 document.getElementById("scroll-instruction").style.display = "none";
             } else {
-                document.getElementById("cake-canvas").style.transform = "translate(0, 0) scale(1)";
-                document.getElementById("letter").style.right = "-100%";
+                cakeCanvas.style.transform = "translate(0, 0) scale(1)";
+                if (isSmall) {
+                    // hide off-screen to the right on small devices when closed
+                    letter.style.left = "110%";
+                    letter.style.right = "auto";
+                } else {
+                    letter.style.left = "auto";
+                    letter.style.right = "-100%";
+                }
                 if (cakeClicked) {
                     document.getElementById("scroll-instruction").style.display = "block";
                 }
@@ -303,4 +324,17 @@
         // Initialize on window load
         window.onload = function () {
             initCake();
+            // Keep letter hidden initially; on small screens we move it off-screen to right using left property
+            const letter = document.getElementById("letter");
+            if (letter) {
+                if (window.innerWidth <= 768) {
+                    letter.style.left = '110%';
+                    letter.style.right = 'auto';
+                    letter.style.transform = 'translate(-50%, 0) rotate(0deg)';
+                } else {
+                    letter.style.left = 'auto';
+                    letter.style.right = '-100%';
+                    letter.style.transform = 'translateY(-50%) rotate(3deg)';
+                }
+            }
         };
